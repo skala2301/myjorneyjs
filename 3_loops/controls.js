@@ -131,15 +131,19 @@ figure_selector.addEventListener('change', function(e) {
 });
 
 window.addEventListener('resize', function() {
-    canvas_dimensions.resizeDimensions(window.innerWidth - 20, window.innerHeight - 20);
-    const zoom = canvas_dimensions.width / canvas_dimensions.base_width;
-    my_canvas.setDimensions({width: canvas_dimensions.width, height: canvas_dimensions.height});
-    my_canvas.setViewportTransform([zoom, 0, 0, zoom, 0, 0]);
+    restoreSize();
     //my_canvas.setZoom(canvas_dimensions.width / canvas_dimensions.base_width);
     my_canvas.renderAll();
     
     
 });
+
+function restoreSize() {
+    canvas_dimensions.resizeDimensions(window.innerWidth - 20, window.innerHeight - 20);
+    const zoom = canvas_dimensions.width / canvas_dimensions.base_width;
+    my_canvas.setDimensions({width: canvas_dimensions.width, height: canvas_dimensions.height});
+    my_canvas.setViewportTransform([zoom, 0, 0, zoom, 0, 0]);
+}
 
 
 document.addEventListener('DOMContentLoaded', () => {

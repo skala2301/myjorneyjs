@@ -186,11 +186,17 @@ my_canvas.on('mouse:up', function(e) {
             }
             
         }
+        
         selectedLayer.setCoords();
         if(Layer.lastSelectedLayer){
-            const point0 = new fabric.Point(Layer.lastSelectedLayer.oCoords.br.x, Layer.lastSelectedLayer.oCoords.br.y);
-            const pointf = new fabric.Point(Layer.lastSelectedLayer.oCoords.bl.x, Layer.lastSelectedLayer.oCoords.bl.y);
-            my_canvas.zoomToPoint(point0.midPointFrom(pointf), (my_canvas.width / Layer.lastSelectedLayer.width) / 2);
+            console.log(my_canvas.getZoom())
+            const newZoom = (my_canvas.width / Layer.lastSelectedLayer.width) / 2;
+            const point0 = (() => new fabric.Point(Layer.lastSelectedLayer.aCoords.br.x, Layer.lastSelectedLayer.aCoords.br.y))();
+            const pointf = (() => new fabric.Point(Layer.lastSelectedLayer.aCoords.bl.x, Layer.lastSelectedLayer.aCoords.bl.y))();
+            console.log("Mid point: ",point0.midPointFrom(pointf), " Last selected L: ", Layer.lastSelectedLayer.width, " my_canvas.width: ", my_canvas.width)
+            const vppoint = new fabric.Point(my_canvas.width / newZoom, my_canvas.height / newZoom);
+            my_canvas.setZoom(newZoom);
+            my_canvas.absolutePan(point0.midPointFrom(pointf).subtract(vppoint))
             selectedLayer.setCoords();
             my_canvas.renderAll();
         }
